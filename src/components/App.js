@@ -1,20 +1,39 @@
 import styled from 'styled-components';
+import { useState } from "react";
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
+import CartContext from '../contexts/CartContext';
+import MoviesContext from '../contexts/MoviesContext';
 import Header from './Header';
 import Catalog from './Catalog';
+import MovieSessions from './MovieSessions';
+import Footer from './Footer';
 
 export default function App() {
+    const [movies, setMovies] = useState([])
+    const [selectedMovie, setSelectedMovie] = useState({});
+    const [selectedSeats, setSelectedSeats] = useState([]);
+    const [selectedSession, setSelectedSession] = useState({weekday: "Quinta-feita", time: "15:00"});
 
     return (
-        <BrowserRouter>
-            <Body>
-                <Header/>
-                <Switch>
-                    <Route path="/" component={Catalog} exact/>
-                </Switch>
-            </Body>
-        </BrowserRouter>
+        <CartContext.Provider value={{ selectedMovie, setSelectedMovie, selectedSession, setSelectedSession, selectedSeats, setSelectedSeats }}>
+        <MoviesContext.Provider value={{ movies, setMovies }}>
+            <BrowserRouter>
+                <Body>
+                    <Header/>
+                    <Switch>
+                        <Route path="/" component={Catalog} exact/>
+                    </Switch>
+                    <Switch>
+                        <Route path="/sessoes/:idFilme" exact>
+                            <MovieSessions/>
+                            <Footer/>
+                        </Route>
+                    </Switch>
+                </Body>
+            </BrowserRouter>
+        </MoviesContext.Provider>
+        </CartContext.Provider>
     )
 }
 

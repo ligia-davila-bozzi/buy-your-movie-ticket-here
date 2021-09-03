@@ -1,11 +1,36 @@
 import styled from 'styled-components';
+import { useState, useEffect, useContext } from "react";
+import { useHistory } from "react-router-dom";
+import axios from "axios";
+
+import MoviesContext from "../contexts/MoviesContext";
+import CartContext from "../contexts/CartContext";
 
 export default function Catalog() {
+    const { movies, setMovies } = useContext(MoviesContext);
+    const { setSelectedMovie } = useContext(CartContext);
+    const history = useHistory();
+
+    useEffect(() => {
+        const request = axios.get("https://mock-api.bootcamp.respondeai.com.br/api/v3/cineflex/movies");
+        request.then((res) => {setMovies(res.data); console.log(res.data)})
+    }, []);
+
+    function showSessions(movie) {
+        setSelectedMovie(movie);
+        history.push(`/sessoes/${movie.id}`);
+        console.log(movie);
+    }
+
     return (
         <CatalogBox>
             <Intro>Selecione o filme</Intro>
             <Movies>
-                <h1>OS FILMES VÃO AQUI</h1>
+                {movies.map((movie, index) => (
+                    <Movie key={index}>
+                        <img alt="" src={movie.posterURL} onClick={() => {showSessions(movie)}}></img>
+                    </Movie>
+                ))}
             </Movies>
         </CatalogBox>
     )
@@ -29,8 +54,24 @@ const Intro = styled.h1`
 const Movies = styled.div`
     width: 100%;
     height: calc(100vh - 155px);
-    background: lightblue;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    overflow: scroll;
+`;
+const Movie = styled.div`
+    width: 145px;
+    height: 209px;
     display: flex;
     justify-content: center;
     align-items: center;
+    background: #FFFFFF;
+    box-shadow: 0px 2px 4px 2px rgba(0, 0, 0, 0.1);
+    border-radius: 3px;
+    margin-bottom: 11px;
+    img {
+        width: 129px;
+        height: 193px;
+        cursor: pointer;
+    }
 `;
