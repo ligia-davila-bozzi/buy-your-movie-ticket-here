@@ -7,13 +7,14 @@ import MoviesContext from '../contexts/MoviesContext';
 import Header from './Header';
 import Catalog from './Catalog';
 import MovieSessions from './MovieSessions';
+import SessionSeats from './SessionSeats';
 import Footer from './Footer';
 
 export default function App() {
     const [movies, setMovies] = useState([])
     const [selectedMovie, setSelectedMovie] = useState({});
     const [selectedSeats, setSelectedSeats] = useState([]);
-    const [selectedSession, setSelectedSession] = useState({weekday: "Quinta-feita", time: "15:00"});
+    const [selectedSession, setSelectedSession] = useState();
 
     return (
         <CartContext.Provider value={{ selectedMovie, setSelectedMovie, selectedSession, setSelectedSession, selectedSeats, setSelectedSeats }}>
@@ -27,6 +28,12 @@ export default function App() {
                     <Switch>
                         <Route path="/sessoes/:idFilme" exact>
                             <MovieSessions/>
+                            <Footer/>
+                        </Route>
+                    </Switch>
+                    <Switch>
+                        <Route path="/assentos/:idSessao" exact>
+                            <SessionSeats/>
                             <Footer/>
                         </Route>
                     </Switch>

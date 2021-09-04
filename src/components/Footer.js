@@ -1,22 +1,27 @@
 import styled from 'styled-components';
 import { useState, useEffect, useContext } from "react";
+import { Link, useParams } from "react-router-dom";
 
 import CartContext from "../contexts/CartContext";
 
 export default function Footer() {
-    const { 
-        selectedMovie, 
-        setSelectedMovie, 
-        selectedSession, 
-        setSelectedSession 
-    } = useContext(CartContext);
+    const { selectedMovie, selectedSession } = useContext(CartContext);
+    const { idSessao } = useParams();
+    const [selectedTime, setSelectedTime] = useState();
+    
+    useEffect(() => {
+        if(idSessao) {
+            let time = selectedSession.showtimes.find(showtime => showtime.id == idSessao);
+            setSelectedTime(time.name);
+        }
+    }, [idSessao]);
 
     return (
         <FooterBox>
             <MoviePic><img alt="" src={selectedMovie.posterURL}></img></MoviePic>
             <MovieInfo>
                 <h1>{selectedMovie.title}</h1>
-                {selectedSession && <h1>{selectedSession.weekday} - {selectedSession.time}</h1>}
+                {selectedSession && selectedTime && <h1>{selectedSession.weekday} - {selectedTime}</h1>}
             </MovieInfo>
         </FooterBox>
     )

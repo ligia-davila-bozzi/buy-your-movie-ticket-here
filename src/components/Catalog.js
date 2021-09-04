@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import { useState, useEffect, useContext } from "react";
-import { useHistory } from "react-router-dom";
+import { useEffect, useContext } from "react";
+import { Link } from "react-router-dom";
 import axios from "axios";
 
 import MoviesContext from "../contexts/MoviesContext";
@@ -9,18 +9,11 @@ import CartContext from "../contexts/CartContext";
 export default function Catalog() {
     const { movies, setMovies } = useContext(MoviesContext);
     const { setSelectedMovie } = useContext(CartContext);
-    const history = useHistory();
 
     useEffect(() => {
         const request = axios.get("https://mock-api.bootcamp.respondeai.com.br/api/v3/cineflex/movies");
-        request.then((res) => {setMovies(res.data); console.log(res.data)})
+        request.then((res) => setMovies(res.data))
     }, []);
-
-    function showSessions(movie) {
-        setSelectedMovie(movie);
-        history.push(`/sessoes/${movie.id}`);
-        console.log(movie);
-    }
 
     return (
         <CatalogBox>
@@ -28,7 +21,9 @@ export default function Catalog() {
             <Movies>
                 {movies.map((movie, index) => (
                     <Movie key={index}>
-                        <img alt="" src={movie.posterURL} onClick={() => {showSessions(movie)}}></img>
+                        <Link to={`/sessoes/${movie.id}`}>
+                            <img alt="" src={movie.posterURL} onClick={() => {setSelectedMovie(movie)}}></img>
+                        </Link>
                     </Movie>
                 ))}
             </Movies>
@@ -58,7 +53,9 @@ const Movies = styled.div`
     flex-wrap: wrap;
     justify-content: space-evenly;
     overflow: scroll;
+    scrollbar-width: none;
 `;
+
 const Movie = styled.div`
     width: 145px;
     height: 209px;
