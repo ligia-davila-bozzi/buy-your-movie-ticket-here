@@ -3,22 +3,23 @@ import { useState } from "react";
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
 import CartContext from '../contexts/CartContext';
-import MoviesContext from '../contexts/MoviesContext';
 import Header from './Header';
 import Catalog from './Catalog';
 import MovieSessions from './MovieSessions';
 import SessionSeats from './SessionSeats';
+import OrderDone from './OrderDone';
 import Footer from './Footer';
 
 export default function App() {
-    const [movies, setMovies] = useState([])
     const [selectedMovie, setSelectedMovie] = useState({});
     const [selectedSeats, setSelectedSeats] = useState([]);
     const [selectedSession, setSelectedSession] = useState();
+    const [selectedTime, setSelectedTime] = useState();
+    const [customerName, setCustomerName] = useState();
+    const [customerCPF, setCustomerCPF] = useState();
 
     return (
-        <CartContext.Provider value={{ selectedMovie, setSelectedMovie, selectedSession, setSelectedSession, selectedSeats, setSelectedSeats }}>
-        <MoviesContext.Provider value={{ movies, setMovies }}>
+        <CartContext.Provider value={{ selectedMovie, setSelectedMovie, selectedSession, setSelectedSession, selectedSeats, setSelectedSeats, selectedTime, setSelectedTime, customerName, setCustomerName, customerCPF, setCustomerCPF }}>
             <BrowserRouter>
                 <Body>
                     <Header/>
@@ -37,9 +38,13 @@ export default function App() {
                             <Footer/>
                         </Route>
                     </Switch>
+                    <Switch>
+                        <Route path="/sucesso" exact>
+                            <OrderDone/>
+                        </Route>
+                    </Switch>
                 </Body>
             </BrowserRouter>
-        </MoviesContext.Provider>
         </CartContext.Provider>
     )
 }

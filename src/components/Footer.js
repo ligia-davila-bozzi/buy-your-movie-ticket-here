@@ -1,13 +1,12 @@
 import styled from 'styled-components';
 import { useState, useEffect, useContext } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 import CartContext from "../contexts/CartContext";
 
 export default function Footer() {
-    const { selectedMovie, selectedSession } = useContext(CartContext);
+    const { selectedMovie, selectedSession, selectedTime, setSelectedTime } = useContext(CartContext);
     const { idSessao } = useParams();
-    const [selectedTime, setSelectedTime] = useState();
     
     useEffect(() => {
         if(idSessao) {
@@ -60,7 +59,7 @@ const MovieInfo = styled.div`
     justify-content: center;
     h1 {
         width: 100%;
-        font-family: 'Roboto';
+        font-family: Roboto;
         font-size: 26px;
         line-height: 30px;
         color: #293845;

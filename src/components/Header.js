@@ -18,7 +18,7 @@ const HeaderBox = styled.div`
 `;
 
 const Title = styled.h1`
-    font-family: 'Roboto';
+    font-family: Roboto;
     font-size: 34px;
     line-height: 40px;
     color: #E8833A;

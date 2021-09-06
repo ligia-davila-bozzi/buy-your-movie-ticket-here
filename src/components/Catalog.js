@@ -1,13 +1,12 @@
 import styled from 'styled-components';
-import { useEffect, useContext } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
-import MoviesContext from "../contexts/MoviesContext";
 import CartContext from "../contexts/CartContext";
 
 export default function Catalog() {
-    const { movies, setMovies } = useContext(MoviesContext);
+    const [movies, setMovies ] = useState();
     const { setSelectedMovie } = useContext(CartContext);
 
     useEffect(() => {
@@ -19,7 +18,7 @@ export default function Catalog() {
         <CatalogBox>
             <Intro>Selecione o filme</Intro>
             <Movies>
-                {movies.map((movie, index) => (
+                {movies && movies.map((movie, index) => (
                     <Movie key={index}>
                         <Link to={`/sessoes/${movie.id}`}>
                             <img alt="" src={movie.posterURL} onClick={() => {setSelectedMovie(movie)}}></img>
@@ -33,13 +32,14 @@ export default function Catalog() {
 
 const CatalogBox = styled.div`
     width: 100%;
-    height: calc(100vh - 67px);
+    height: calc(100vh - 67px);             
     display: flex;
     flex-direction: column;
     align-items: center;
 `;
 
 const Intro = styled.h1`
+    font-family: Roboto;
     font-size: 24px;
     line-height: 28px;
     color: #293845;

@@ -44,6 +44,7 @@ const MovieSessionsBox = styled.div`
 `;
 
 const Intro = styled.h1`
+    font-family: Roboto;
     font-size: 24px;
     line-height: 28px;
     color: #293845;
